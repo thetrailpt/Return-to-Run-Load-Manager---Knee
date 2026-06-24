@@ -1,4 +1,6 @@
-
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
 :root{
   --color-text-primary:#1a1a1a;
@@ -20,7 +22,7 @@
     --color-border-secondary:rgba(255,255,255,0.22);
   }
 }
-*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Lato',Arial,sans-serif}
 h2{font-size:26px;font-weight:700;color:var(--color-text-primary);margin-bottom:4px;letter-spacing:0.01em}
 .section{margin-bottom:2rem}
 .section-label{font-size:14px;color:#2d2d2d;margin-bottom:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.01em;text-align:center}
@@ -28,8 +30,8 @@ h2{font-size:26px;font-weight:700;color:var(--color-text-primary);margin-bottom:
 .baseline-card{background:var(--color-background-secondary);border:none;border-radius:var(--border-radius-md);padding:10px 8px;min-width:0;transition:background 0.15s}
 .baseline-card.highlighted{background:#e0e0e0}
 .baseline-card.off{background:#f2f2f2}
-.baseline-card label{display:block;font-size:10px;color:var(--color-text-secondary);margin-bottom:6px;line-height:1.3;text-align:center}
-.baseline-card input[type=number]{width:100%;font-size:17px;font-weight:700;text-align:center;background:transparent;border:none;color:var(--color-text-primary);padding:0;outline:none;font-family:Arial,sans-serif}
+.baseline-card label{display:block;font-size:12px;font-weight:600;color:var(--color-text-secondary);margin-bottom:6px;line-height:1.3;text-align:center}
+.baseline-card input[type=number]{width:100%;font-size:17px;font-weight:700;text-align:center;background:transparent;border:none;color:var(--color-text-primary);padding:0;outline:none;font-family:'Lato',Arial,sans-serif}
 .baseline-card input[type=number]:disabled{color:var(--color-text-secondary);cursor:not-allowed;-webkit-text-fill-color:var(--color-text-secondary);opacity:1}
 .soundboard{display:grid;grid-template-columns:repeat(12,1fr);gap:10px;align-items:start}
 .col-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:10px 6px 14px 6px;display:flex;flex-direction:column;align-items:center;gap:10px;transition:background 0.15s}
@@ -40,35 +42,36 @@ h2{font-size:26px;font-weight:700;color:var(--color-text-primary);margin-bottom:
   .baseline-card.highlighted{background:#3a3a3a}
   .col-card.highlighted{background:#3a3a3a}
 }
-.col-label{font-size:10px;color:var(--color-text-secondary);text-align:center;line-height:1.3;min-height:28px}
+.col-label{font-size:12px;font-weight:600;color:var(--color-text-secondary);text-align:center;line-height:1.3;min-height:28px}
 .track-outer{position:relative;width:96px;height:460px;margin:0 auto;cursor:ns-resize;user-select:none;flex-shrink:0}
 .track-bg{position:absolute;top:26px;bottom:26px;left:22px;width:52px;background:var(--color-background-secondary);border-radius:26px}
 .track-fill{position:absolute;bottom:12px;left:22px;width:52px;border-radius:26px;transition:height 0.08s}
 .track-thumb{position:absolute;left:22px;width:52px;height:52px;background:var(--color-background-primary);border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,0.2);z-index:4;transition:bottom 0.08s,border-color 0.08s;display:flex;align-items:center;justify-content:center;border:3px solid #1D9E75}
-.thumb-val{font-size:11px;font-weight:700;text-align:center;line-height:1.1;pointer-events:none;font-family:Arial,sans-serif}
+.thumb-val{font-size:11px;font-weight:700;text-align:center;line-height:1.1;pointer-events:none;font-family:'Lato',Arial,sans-serif}
 .tick-label{position:absolute;right:0;width:18px;font-size:9px;font-weight:400;text-align:right;white-space:nowrap;z-index:2;pointer-events:none;line-height:1}
 .divider{height:0.5px;background:var(--color-border-tertiary);margin:1.5rem 0}
 .calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .calc-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px 16px;transition:background 0.15s;position:relative}
-.unit-toggle{position:absolute;top:10px;right:10px;display:flex;border:1px solid var(--color-border-secondary);border-radius:6px;overflow:hidden}
-.unit-btn{font-size:10px;padding:4px 9px;background:transparent;border:none;cursor:pointer;color:var(--color-text-secondary);font-family:Arial,sans-serif;font-weight:700}
+.unit-toggle{display:flex;border:1px solid var(--color-border-secondary);border-radius:8px;overflow:hidden;flex-shrink:0}
+.unit-btn{font-size:13px;padding:8px 16px;background:transparent;border:none;cursor:pointer;color:var(--color-text-secondary);font-family:'Lato',Arial,sans-serif;font-weight:700}
 .unit-btn.active{background:#d9d9d9;color:#1a1a1a}
 .calc-card.highlighted{background:#e0e0e0}
 @media(prefers-color-scheme:dark){.calc-card.highlighted{background:#3a3a3a}}
-.calc-card h3{font-size:15px;font-weight:700;color:var(--color-text-primary);margin-bottom:12px;text-transform:uppercase;letter-spacing:0.04em;text-align:center}
+.calc-card h3{font-size:15px;font-weight:700;color:var(--color-text-primary);text-transform:uppercase;letter-spacing:0.04em;text-align:center;margin:0}
+.calc-header{display:flex;align-items:center;min-height:40px;margin-bottom:12px}
 .calc-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;gap:8px}
-.calc-row label{font-size:13px;color:var(--color-text-secondary);flex:1}
-.calc-row input[type=number]{width:80px;font-size:14px;text-align:right;background:var(--color-background-secondary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:4px 8px;color:var(--color-text-primary);outline:none;font-family:Arial,sans-serif}
+.calc-row label{font-size:15px;color:var(--color-text-secondary);flex:1}
+.calc-row input[type=number]{width:80px;font-size:16px;text-align:right;background:var(--color-background-secondary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:4px 8px;color:var(--color-text-primary);outline:none;font-family:'Lato',Arial,sans-serif}
 .calc-result{margin-top:10px;padding-top:10px;border-top:0.5px solid var(--color-border-tertiary);display:flex;justify-content:space-between;align-items:baseline}
-.calc-result .rlabel{font-size:13px;color:var(--color-text-secondary)}
+.calc-result .rlabel{font-size:15px;color:var(--color-text-secondary)}
 .calc-result .rvalue{font-size:20px;font-weight:700;color:var(--color-text-primary)}
 input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 input[type=number]{-moz-appearance:textfield}
 </style>
 
 <div>
-  <h2 style="padding-top:0;text-align:center;color:#2d2d2d;">Return To Run Load Manager</h2>
-  <p style="font-size:14px;color:#2d2d2d;margin-bottom:1.5rem;font-weight:700;text-align:center;">Acclimate Physical Therapy and Performance Return to Run - Knee</p>
+  <h2 style="padding-top:1.5rem;text-align:center;color:#2d2d2d;">Return To Run Load Manager</h2>
+  <p style="font-size:16px;color:#2d2d2d;margin-bottom:1.5rem;font-weight:700;text-align:center;">Acclimate Physical Therapy and Performance Return to Run - Knee</p>
   <p class="section-label">Prior Levels</p>
   <div class="baseline-grid" id="baselineGrid"></div>
 </div>
@@ -82,22 +85,27 @@ input[type=number]{-moz-appearance:textfield}
 
 <div class="divider"></div>
 
-<div class="section">
+<div class="section" style="position:relative">
+  <button type="button" id="genSummaryBtn" onclick="generateSummary()" style="position:absolute;top:0;right:0;font-size:12px;font-weight:700;padding:8px 14px;background:#1D9E75;color:#ffffff;border:none;border-radius:8px;cursor:pointer;font-family:'Lato',Arial,sans-serif;">Generate Plan Summary</button>
   <div class="calc-grid">
     <div class="calc-card" id="calcCard_elevgain"
       onmouseenter="setHighlight('grade',true)" onmouseleave="setHighlight('grade',false)">
-      <div class="unit-toggle" id="gradeUnitToggle">
-        <button type="button" class="unit-btn active" data-unit="imperial" onclick="setGradeUnit('imperial')">Imperial</button>
-        <button type="button" class="unit-btn" data-unit="metric" onclick="setGradeUnit('metric')">Metric</button>
+      <div class="calc-header" style="justify-content:space-between">
+        <h3 style="text-align:left">% Grade Calculator</h3>
+        <div class="unit-toggle" id="gradeUnitToggle">
+          <button type="button" class="unit-btn active" data-unit="imperial" onclick="setGradeUnit('imperial')">Imperial</button>
+          <button type="button" class="unit-btn" data-unit="metric" onclick="setGradeUnit('metric')">Metric</button>
+        </div>
       </div>
-      <h3>% Grade Calculator</h3>
       <div class="calc-row"><label id="gradeDistLabel">Distance (miles)</label><input type="number" id="gradeMiles" value="0" step="0.05" oninput="calcGrade()" onfocus="setHighlight('grade',true)" onblur="setHighlight('grade',false)"></div>
       <div class="calc-row"><label id="gradeElevLabel">Elevation Change (ft)</label><input type="number" id="gradeElev" value="0" step="1" oninput="calcGrade()" onfocus="setHighlight('grade',true)" onblur="setHighlight('grade',false)"></div>
       <div class="calc-result"><span class="rlabel">% Grade</span><span class="rvalue" id="gradeResult">1.7%</span></div>
     </div>
     <div class="calc-card" id="calcCard_cadence"
       onmouseenter="setHighlight('cadence',true)" onmouseleave="setHighlight('cadence',false)">
-      <h3>Cadence Calculator</h3>
+      <div class="calc-header" style="justify-content:flex-start">
+        <h3 style="text-align:left">Cadence Calculator</h3>
+      </div>
       <div class="calc-row"><label>Current Cadence (Steps Per Minute)</label><input type="number" id="cadenceCurrent" value="0" step="1" oninput="calcCadence()" onfocus="setHighlight('cadence',true)" onblur="setHighlight('cadence',false)"></div>
       <div class="calc-row" style="visibility:hidden"><label>Spacer</label><input type="number" tabindex="-1"></div>
       <div class="calc-result" style="flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:6px;">
@@ -105,10 +113,11 @@ input[type=number]{-moz-appearance:textfield}
           <span class="rlabel">Rehab Cadence (+10%)</span>
           <span class="rvalue" id="cadenceRehab">182 spm</span>
         </div>
-        <div style="font-size:12px;color:var(--color-text-secondary)">Capped at 185 spm</div>
+        <div style="font-size:13px;color:var(--color-text-secondary)">Capped at 185 spm</div>
       </div>
     </div>
   </div>
+  <div id="planSummary" style="margin-top:16px;padding:14px 16px;background:var(--color-background-secondary);border-radius:var(--border-radius-lg);font-size:14px;line-height:1.5;color:var(--color-text-primary);display:none;"></div>
 </div>
 
 <script>
@@ -118,7 +127,7 @@ const COLS=[
   {key:'walk',      label:'Walk %',                base:null, unit:'%',  dec:0, fixed:[0,10,20,30,40,50,60,70,80,90,100]},
   {key:'longrun',   label:'Long Run %',            base:40,   unit:'%',  dec:0, mults:[1,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1,0.05]},
   {key:'elevgain',  label:'Elev Gain (ft/m)',       base:2500, unit:'', dec:0, mults:[1,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1,0]},
-  {key:'elevloss',  label:'Elev Loss (ft)',         base:2500, unit:'', dec:0, mults:[1,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1,0]},
+  {key:'elevloss',  label:'Elev Loss (ft/m)',       base:2500, unit:'', dec:0, mults:[1,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1,0]},
   {key:'grade',     label:'Downhill Grade %',       base:20,   unit:'%',  dec:0, mults:[1,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1,0]},
   {key:'stack',     label:'Stack Height (mm)',      base:27,   unit:'', dec:0, mults:[1,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1,0]},
   {key:'drop',      label:'Heel Drop (mm)',         base:6,    unit:'', dec:0, mults:[1,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1,0]},
@@ -138,6 +147,7 @@ function getVals(col){
   return col.mults.map(m=>{const v=b*m;return col.dec===1?Math.round(v*10)/10:Math.round(v);});
 }
 function fmt(v,col){return(col.dec===1?v.toFixed(1):Math.round(v))+col.unit;}
+function sliderTitle(label){return label.replace(/\s*\([^)]*\)/g,'').trim();}
 
 // Map level (0-10) to a bottom px value within the track, using padding on both ends
 function levelToBottom(lv, trackH){
@@ -263,7 +273,7 @@ function buildSoundboard(){
       ticksHTML+=`<span id="tl_${col.key}_${i}" class="tick-label" style="bottom:0;opacity:0;">${fmt(vals[i],col)}</span>`;
     }
     card.innerHTML=`
-      <div class="col-label">${col.label}</div>
+      <div class="col-label">${sliderTitle(col.label)}</div>
       <div class="track-outer" id="tw_${col.key}">
         <div class="track-bg"></div>
         <div class="track-fill" id="tf_${col.key}" style="height:0;bottom:${PAD}px;background:${offState[col.key]?OFF_LIGHT:`linear-gradient(to top,#C0392B,${color})`}"></div>
@@ -350,6 +360,91 @@ function calcGrade(){
 function calcCadence(){
   const c=parseFloat(document.getElementById('cadenceCurrent').value)||0;
   document.getElementById('cadenceRehab').textContent=Math.min(185,Math.round(c*1.1))+' spm';
+}
+
+function getCurrentValue(key){
+  const col=COLS.find(c=>c.key===key);
+  if(!col||offState[key])return null;
+  const vals=getVals(col);
+  const cur=ROWS-1-levels[key];
+  return vals[cur];
+}
+function pluralize(n,word){return Math.round(n)===1?word:word+'s';}
+function joinList(arr){
+  if(arr.length===1)return arr[0];
+  if(arr.length===2)return arr[0]+' and '+arr[1];
+  return arr.slice(0,-1).join(', ')+', and '+arr[arr.length-1];
+}
+
+function generateSummary(){
+  const freq=getCurrentValue('frequency');
+  const volume=getCurrentValue('volume');
+  const longrunPct=getCurrentValue('longrun');
+  const walk=getCurrentValue('walk');
+  const elevGain=getCurrentValue('elevgain');
+  const elevLoss=getCurrentValue('elevloss');
+  const grade=getCurrentValue('grade');
+  const stack=getCurrentValue('stack');
+  const drop=getCurrentValue('drop');
+  const intensity=getCurrentValue('intensity');
+  const cadence=getCurrentValue('cadence');
+  const fartlek=getCurrentValue('fartlek');
+
+  let sentence='';
+
+  const hasFreq=freq!==null&&freq>0, hasVol=volume!==null&&volume>0;
+  if(hasFreq&&hasVol){
+    sentence=`You will be running ${Math.round(freq)} ${pluralize(freq,'time')} a week for a total of ${Math.round(volume)} ${pluralize(volume,'mile')}`;
+  }else if(hasFreq){
+    sentence=`You will be running ${Math.round(freq)} ${pluralize(freq,'time')} a week`;
+  }else if(hasVol){
+    sentence=`You will be running a total of ${Math.round(volume)} ${pluralize(volume,'mile')} a week`;
+  }
+
+  if(longrunPct!==null&&longrunPct>0){
+    if(hasVol){
+      const longRunMiles=Math.round((volume*(longrunPct/100))*10)/10;
+      sentence+=sentence?`, with your long run being ${longRunMiles} ${pluralize(longRunMiles,'mile')}`:`Your long run will be ${Math.round(longrunPct)}% of your weekly volume`;
+    }else{
+      sentence+=sentence?`, with your long run making up ${Math.round(longrunPct)}% of your weekly volume`:`Your long run will make up ${Math.round(longrunPct)}% of your weekly volume`;
+    }
+  }
+  if(sentence&&!sentence.endsWith('.'))sentence+='.';
+
+  const extras=[];
+  if(walk!==null&&walk>0)extras.push(`${Math.round(walk)}% of your running including walk breaks`);
+  if(cadence!==null&&cadence>0)extras.push(`${Math.round(cadence)}% at an increased cadence`);
+  if(fartlek!==null&&fartlek>0)extras.push(`${Math.round(fartlek)}% incorporating form fartlek work`);
+  if(extras.length){
+    sentence+=` Your plan includes ${joinList(extras)}.`;
+  }
+
+  const terrain=[];
+  if(elevGain!==null&&elevGain>0)terrain.push(`${Math.round(elevGain)} ft of elevation gain`);
+  if(elevLoss!==null&&elevLoss>0)terrain.push(`${Math.round(elevLoss)} ft of elevation loss`);
+  if(grade!==null&&grade>0)terrain.push(`downhill grades up to ${Math.round(grade)}%`);
+  if(terrain.length){
+    sentence+=` You'll target ${joinList(terrain)}.`;
+  }
+
+  const gear=[];
+  if(stack!==null&&stack>0)gear.push(`a stack height of ${Math.round(stack)}mm`);
+  if(drop!==null&&drop>0)gear.push(`a heel drop of ${Math.round(drop)}mm`);
+  if(gear.length){
+    sentence+=` Footwear should have ${joinList(gear)}.`;
+  }
+
+  if(intensity!==null&&intensity>0){
+    sentence+=` Plan for ${Math.round(intensity)} minutes at target intensity.`;
+  }
+
+  if(!sentence){
+    sentence='Enter values into the sliders above to generate a plan summary.';
+  }
+
+  const out=document.getElementById('planSummary');
+  out.textContent=sentence;
+  out.style.display='block';
 }
 
 buildBaseline();
