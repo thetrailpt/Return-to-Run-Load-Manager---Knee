@@ -27,7 +27,7 @@ h2{font-size:26px;font-weight:700;color:var(--color-text-primary);margin-bottom:
 .section{margin-bottom:2rem}
 .section-label{font-size:14px;color:#2d2d2d;margin-bottom:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.01em;text-align:center}
 .baseline-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:10px;margin-bottom:1rem}
-.baseline-card{background:var(--color-background-secondary);border:none;border-radius:var(--border-radius-md);padding:10px 8px;min-width:0;transition:background 0.15s}
+.baseline-card{background:var(--color-background-secondary);border:none;border-radius:var(--border-radius-md);padding:10px 8px;min-width:0;transition:background 0.15s;display:flex;flex-direction:column;justify-content:space-between;}
 .baseline-card.highlighted{background:#e0e0e0}
 .baseline-card.off{background:#f2f2f2}
 .baseline-card label{display:block;font-size:12px;font-weight:600;color:var(--color-text-secondary);margin-bottom:6px;line-height:1.3;text-align:center}
@@ -43,6 +43,21 @@ h2{font-size:26px;font-weight:700;color:var(--color-text-primary);margin-bottom:
   .col-card.highlighted{background:#3a3a3a}
 }
 .col-label{font-size:12px;font-weight:600;color:var(--color-text-secondary);text-align:center;line-height:1.3;min-height:28px}
+.specs-arrow{display:inline-block;margin-left:4px;cursor:pointer;color:#aaaaaa;font-size:14px;vertical-align:middle;position:relative;bottom:1px;line-height:1;user-select:none;}
+.specs-arrow:hover{color:#888888}
+#specsModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:1000;align-items:center;justify-content:center;}
+#specsModal.open{display:flex;}
+#specsModalBox{background:#fff;border-radius:12px;padding:24px;max-width:720px;width:90%;max-height:80vh;overflow-y:auto;position:relative;box-shadow:0 8px 40px rgba(0,0,0,0.2);}
+#specsModalBox h2{font-size:16px;font-weight:700;color:#1a1a1a;margin-bottom:4px;}
+#specsModalBox p.sub{color:#666;font-size:11px;margin-bottom:14px;}
+#specsModalClose{position:absolute;top:14px;right:16px;font-size:20px;cursor:pointer;color:#666;line-height:1;background:none;border:none;font-family:inherit;}
+#specsModalClose:hover{color:#1a1a1a}
+#specsModalBox table{border-collapse:collapse;width:100%;font-family:'Lato',Arial,sans-serif;}
+#specsModalBox th{background:#2d2d2d;color:#fff;text-align:left;padding:7px 10px;font-size:11px;letter-spacing:0.04em;text-transform:uppercase;position:sticky;top:0;}
+#specsModalBox td{padding:6px 10px;border-bottom:1px solid #e8e8e8;font-size:12px;}
+#specsModalBox tr:hover td{background:#f5f5f5;}
+#specsModalBox .brand-row td{background:#f0f0ee;font-weight:700;font-size:11px;letter-spacing:0.05em;text-transform:uppercase;color:#444;}
+#specsModalBox .note-foot{font-size:11px;color:#999;margin-top:12px;}
 .track-outer{position:relative;width:96px;height:460px;margin:0 auto;cursor:ns-resize;user-select:none;flex-shrink:0}
 .track-bg{position:absolute;top:26px;bottom:26px;left:22px;width:52px;background:var(--color-background-secondary);border-radius:26px}
 .track-fill{position:absolute;bottom:12px;left:22px;width:52px;border-radius:26px;transition:height 0.08s}
@@ -120,6 +135,111 @@ input[type=number]{-moz-appearance:textfield}
   <div id="planSummary" style="margin-top:16px;padding:14px 16px;background:var(--color-background-secondary);border-radius:var(--border-radius-lg);font-size:14px;line-height:1.5;color:var(--color-text-primary);display:none;"></div>
 </div>
 
+<div id="specsModal">
+  <div id="specsModalBox">
+    <button id="specsModalClose" onclick="document.getElementById('specsModal').classList.remove('open')">&times;</button>
+    <h2>Trail Running Shoes — Stack Height &amp; Heel Drop</h2>
+    <p class="sub">Specs are manufacturer-listed unless noted. Drop = heel stack − forefoot stack.</p>
+    <table>
+      <thead><tr><th>Brand</th><th>Model</th><th>Stack — Heel (mm)</th><th>Stack — Forefoot (mm)</th><th>Heel Drop (mm)</th></tr></thead>
+      <tbody>
+        <tr class="brand-row"><td colspan="5">Adidas</td></tr>
+        <tr><td>Adidas</td><td>Terrex Agravic 4</td><td>35</td><td>29</td><td>6</td></tr>
+        <tr><td>Adidas</td><td>Terrex Agravic Speed Ultra</td><td>40</td><td>34</td><td>6</td></tr>
+        <tr class="brand-row"><td colspan="5">Altra</td></tr>
+        <tr><td>Altra</td><td>Experience Wild 3+</td><td>32</td><td>28</td><td>4</td></tr>
+        <tr><td>Altra</td><td>Lone Peak 9 / 9+</td><td>25</td><td>25</td><td>0</td></tr>
+        <tr><td>Altra</td><td>Olympus 275</td><td>33</td><td>33</td><td>0</td></tr>
+        <tr class="brand-row"><td colspan="5">ASICS</td></tr>
+        <tr><td>ASICS</td><td>Fujispeed 3</td><td>31</td><td>23</td><td>8</td></tr>
+        <tr><td>ASICS</td><td>MetaFuji Trail</td><td>36.5</td><td>28.5</td><td>8</td></tr>
+        <tr><td>ASICS</td><td>Trabuco 14</td><td>36</td><td>28</td><td>8</td></tr>
+        <tr class="brand-row"><td colspan="5">Brooks</td></tr>
+        <tr><td>Brooks</td><td>Cascadia 19</td><td>35</td><td>27</td><td>8</td></tr>
+        <tr><td>Brooks</td><td>Cascadia Elite</td><td>35</td><td>29</td><td>6</td></tr>
+        <tr><td>Brooks</td><td>Catamount 4</td><td>35</td><td>29</td><td>6</td></tr>
+        <tr><td>Brooks</td><td>Ghost Trail</td><td>36.5</td><td>28.5</td><td>8</td></tr>
+        <tr class="brand-row"><td colspan="5">Craft</td></tr>
+        <tr><td>Craft</td><td>Pure Trail (men's)</td><td>35</td><td>29</td><td>6</td></tr>
+        <tr><td>Craft</td><td>Pure Trail (women's)</td><td>36</td><td>30</td><td>6</td></tr>
+        <tr><td>Craft</td><td>Pure Trail Pro</td><td>36</td><td>30</td><td>6</td></tr>
+        <tr class="brand-row"><td colspan="5">HOKA</td></tr>
+        <tr><td>HOKA</td><td>Challenger 8 (men's)</td><td>42</td><td>34</td><td>8</td></tr>
+        <tr><td>HOKA</td><td>Mafate 5</td><td>45</td><td>37</td><td>8</td></tr>
+        <tr><td>HOKA</td><td>Mafate X</td><td>44</td><td>37</td><td>4</td></tr>
+        <tr><td>HOKA</td><td>Rocket X Trail</td><td>38</td><td>32</td><td>6</td></tr>
+        <tr><td>HOKA</td><td>Speedgoat 7</td><td>40</td><td>35</td><td>5</td></tr>
+        <tr><td>HOKA</td><td>Stinson 7</td><td>45</td><td>37</td><td>4</td></tr>
+        <tr><td>HOKA</td><td>Tecton X 3</td><td>38</td><td>32</td><td>6</td></tr>
+        <tr><td>HOKA</td><td>Torrent 4</td><td>23</td><td>18</td><td>5</td></tr>
+        <tr><td>HOKA</td><td>Torrent 5</td><td>38</td><td>32</td><td>5</td></tr>
+        <tr><td>HOKA</td><td>Zinal 2</td><td>33</td><td>29</td><td>4</td></tr>
+        <tr class="brand-row"><td colspan="5">Inov-8</td></tr>
+        <tr><td>Inov-8</td><td>TrailFly Pro (2026)</td><td>34</td><td>28</td><td>6</td></tr>
+        <tr><td>Inov-8</td><td>Trailfly Speed</td><td>30</td><td>26</td><td>4</td></tr>
+        <tr><td>Inov-8</td><td>Trailfly 270 V2</td><td>33</td><td>33</td><td>0</td></tr>
+        <tr><td>Inov-8</td><td>TrailTalon</td><td>30</td><td>24</td><td>6</td></tr>
+        <tr class="brand-row"><td colspan="5">La Sportiva</td></tr>
+        <tr><td>La Sportiva</td><td>Bushido III</td><td>28</td><td>22</td><td>6</td></tr>
+        <tr><td>La Sportiva</td><td>Prodigio 2</td><td>34</td><td>28</td><td>6</td></tr>
+        <tr><td>La Sportiva</td><td>Prodigio Max</td><td>37</td><td>31</td><td>6</td></tr>
+        <tr><td>La Sportiva</td><td>Prodigio Pro</td><td>34</td><td>28</td><td>6</td></tr>
+        <tr class="brand-row"><td colspan="5">Merrell</td></tr>
+        <tr><td>Merrell</td><td>Long Sky 2</td><td>28</td><td>22</td><td>6</td></tr>
+        <tr><td>Merrell</td><td>Nova 4</td><td>29</td><td>21</td><td>8</td></tr>
+        <tr class="brand-row"><td colspan="5">Mount to Coast</td></tr>
+        <tr><td>Mount to Coast</td><td>H1</td><td>36</td><td>30</td><td>6</td></tr>
+        <tr class="brand-row"><td colspan="5">New Balance</td></tr>
+        <tr><td>New Balance</td><td>Fresh Foam X Hierro V9</td><td>42</td><td>38</td><td>4</td></tr>
+        <tr class="brand-row"><td colspan="5">Nike</td></tr>
+        <tr><td>Nike</td><td>ACG Pegasus Trail 5</td><td>34</td><td>24</td><td>10</td></tr>
+        <tr><td>Nike</td><td>Terra Kiger 10</td><td>22</td><td>18</td><td>4</td></tr>
+        <tr class="brand-row"><td colspan="5">Nnormal</td></tr>
+        <tr><td>Nnormal</td><td>Kjerag (original)</td><td>23.5</td><td>17.5</td><td>6</td></tr>
+        <tr><td>Nnormal</td><td>Kjerag 02</td><td>26</td><td>20</td><td>6</td></tr>
+        <tr><td>Nnormal</td><td>Tomir (original)</td><td>31</td><td>23</td><td>8</td></tr>
+        <tr><td>Nnormal</td><td>Tomir 2.0</td><td>33</td><td>25</td><td>8</td></tr>
+        <tr class="brand-row"><td colspan="5">Norda</td></tr>
+        <tr><td>Norda</td><td>001 / 001A</td><td>26</td><td>21</td><td>5</td></tr>
+        <tr><td>Norda</td><td>002</td><td>29</td><td>22</td><td>4 (listed) / 7 (measured)*</td></tr>
+        <tr><td>Norda</td><td>003</td><td>26</td><td>21</td><td>5</td></tr>
+        <tr><td>Norda</td><td>005</td><td>28.5</td><td>20.5</td><td>8</td></tr>
+        <tr class="brand-row"><td colspan="5">On</td></tr>
+        <tr><td>On</td><td>Cloudsurfer Trail 2</td><td>32</td><td>26</td><td>6</td></tr>
+        <tr class="brand-row"><td colspan="5">Puma</td></tr>
+        <tr><td>Puma</td><td>Deviate Nitro Elite Trail</td><td>36</td><td>30</td><td>6</td></tr>
+        <tr class="brand-row"><td colspan="5">Salomon</td></tr>
+        <tr><td>Salomon</td><td>Genesis / S/Lab Genesis</td><td>31</td><td>27</td><td>4</td></tr>
+        <tr><td>Salomon</td><td>S/Lab Ultra Glide Trail</td><td>41</td><td>35</td><td>6</td></tr>
+        <tr><td>Salomon</td><td>Speedcross 6</td><td>35</td><td>27</td><td>8</td></tr>
+        <tr><td>Salomon</td><td>Ultra Glide 4</td><td>41</td><td>35</td><td>6</td></tr>
+        <tr><td>Salomon</td><td>XA Pro 3D V9</td><td>35</td><td>29</td><td>6</td></tr>
+        <tr class="brand-row"><td colspan="5">Saucony</td></tr>
+        <tr><td>Saucony</td><td>Peregrine 15</td><td>31</td><td>27</td><td>4</td></tr>
+        <tr><td>Saucony</td><td>Peregrine 16</td><td>33</td><td>28</td><td>5</td></tr>
+        <tr class="brand-row"><td colspan="5">Scarpa</td></tr>
+        <tr><td>Scarpa</td><td>Spin Ultra 2</td><td>30</td><td>24</td><td>6</td></tr>
+        <tr class="brand-row"><td colspan="5">Scott</td></tr>
+        <tr><td>Scott</td><td>Kinabalu RC 3</td><td>32</td><td>27</td><td>5</td></tr>
+        <tr class="brand-row"><td colspan="5">Speedland</td></tr>
+        <tr><td>Speedland</td><td>GL:PDX / GL:SVT</td><td>33</td><td>28</td><td>5</td></tr>
+        <tr><td>Speedland</td><td>GS:PDX / GS:TAM</td><td>34</td><td>29</td><td>5</td></tr>
+        <tr class="brand-row"><td colspan="5">Topo Athletic</td></tr>
+        <tr><td>Topo Athletic</td><td>Terraventure 5</td><td>35</td><td>30</td><td>5</td></tr>
+        <tr><td>Topo Athletic</td><td>Ultraventure 4</td><td>35</td><td>30</td><td>5</td></tr>
+        <tr><td>Topo Athletic</td><td>Ultraventure 5</td><td>35</td><td>30</td><td>5</td></tr>
+        <tr class="brand-row"><td colspan="5">VJ Shoes</td></tr>
+        <tr><td>VJ Shoes</td><td>Flow</td><td>35</td><td>25</td><td>10</td></tr>
+        <tr><td>VJ Shoes</td><td>MAXx2</td><td>31</td><td>25</td><td>6</td></tr>
+        <tr><td>VJ Shoes</td><td>Spark</td><td>27</td><td>22</td><td>5</td></tr>
+        <tr><td>VJ Shoes</td><td>Ultra / Ultra 2</td><td>33</td><td>27</td><td>6</td></tr>
+        <tr><td>VJ Shoes</td><td>Ultra 3</td><td>37</td><td>29</td><td>8</td></tr>
+        <tr><td>VJ Shoes</td><td>XTRM 2</td><td>24</td><td>20</td><td>4</td></tr>
+      </tbody>
+    </table>
+    <p class="note-foot">* Norda 002 is listed at 4mm drop by the brand; independent lab testing (World Athletics standard) measured closer to 7mm.</p>
+  </div>
+</div>
 <script>
 const COLS=[
   {key:'frequency', label:'Frequency (runs/wk)',   base:6,    unit:'x',  dec:0, symmetric:true, mults:[2,1.8,1.6,1.4,1.2,1,0.833333333333,0.666666666666666,0.5,0.3333333333,0.166666666666]},
@@ -273,7 +393,7 @@ function buildSoundboard(){
       ticksHTML+=`<span id="tl_${col.key}_${i}" class="tick-label" style="bottom:0;opacity:0;">${fmt(vals[i],col)}</span>`;
     }
     card.innerHTML=`
-      <div class="col-label">${sliderTitle(col.label)}</div>
+      <div class="col-label">${sliderTitle(col.label)}${(col.key==='stack'||col.key==='drop')?'<span class="specs-arrow" onclick="event.stopPropagation();openSpecsModal()">&#9654;</span>':''}</div>
       <div class="track-outer" id="tw_${col.key}">
         <div class="track-bg"></div>
         <div class="track-fill" id="tf_${col.key}" style="height:0;bottom:${PAD}px;background:${offState[col.key]?OFF_LIGHT:`linear-gradient(to top,#C0392B,${color})`}"></div>
@@ -285,6 +405,12 @@ function buildSoundboard(){
     `;
     card.id='cc_'+col.key;
     board.appendChild(card);
+    if(col.key==='fartlek'){
+      const textBox=document.createElement('div');
+      textBox.style.cssText='background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:6px;display:flex;align-items:stretch;grid-column:12;';
+      textBox.innerHTML=`<textarea style="width:96px;height:60px;resize:none;font-family:\'Lato\',Arial,sans-serif;font-size:13px;color:var(--color-text-primary);background:transparent;border:none;padding:0;outline:none;box-sizing:border-box;text-align:center;"></textarea>`;
+      board.appendChild(textBox);
+    }
     card.addEventListener('mouseenter',()=>setHighlight(col.key,true));
     card.addEventListener('mouseleave',()=>setHighlight(col.key,false));
     card.addEventListener('dblclick',()=>toggleOff(col.key,col));
@@ -447,6 +573,9 @@ function generateSummary(){
   out.style.display='block';
 }
 
+function openSpecsModal(){document.getElementById('specsModal').classList.add('open');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('specsModal').classList.remove('open');});
+document.getElementById('specsModal').addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');});
 buildBaseline();
 buildSoundboard();
 calcGrade();
