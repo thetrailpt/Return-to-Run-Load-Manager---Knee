@@ -1,0 +1,591 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --color-text-primary:#1a1a1a;
+  --color-text-secondary:#666666;
+  --color-background-primary:#ffffff;
+  --color-background-secondary:#f2f2f0;
+  --color-border-tertiary:rgba(0,0,0,0.12);
+  --color-border-secondary:rgba(0,0,0,0.22);
+  --border-radius-md:8px;
+  --border-radius-lg:12px;
+}
+@media(prefers-color-scheme:dark){
+  :root{
+    --color-text-primary:#f0f0ee;
+    --color-text-secondary:#aaaaaa;
+    --color-background-primary:#1e1e1e;
+    --color-background-secondary:#2a2a2a;
+    --color-border-tertiary:rgba(255,255,255,0.12);
+    --color-border-secondary:rgba(255,255,255,0.22);
+  }
+}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Lato',Arial,sans-serif}
+h2{font-size:26px;font-weight:700;color:var(--color-text-primary);margin-bottom:4px;letter-spacing:0.01em}
+.section{margin-bottom:2rem}
+.section-label{font-size:14px;color:#2d2d2d;margin-bottom:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.01em;text-align:center}
+.baseline-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:10px;margin-bottom:1rem}
+.baseline-card{background:var(--color-background-secondary);border:none;border-radius:var(--border-radius-md);padding:10px 8px;min-width:0;transition:background 0.15s;display:flex;flex-direction:column;justify-content:space-between;}
+.baseline-card.highlighted{background:#e0e0e0}
+.baseline-card.off{background:#f2f2f2}
+.baseline-card label{display:block;font-size:12px;font-weight:600;color:var(--color-text-secondary);margin-bottom:6px;line-height:1.3;text-align:center}
+.baseline-card input[type=number]{width:100%;font-size:17px;font-weight:700;text-align:center;background:transparent;border:none;color:var(--color-text-primary);padding:0;outline:none;font-family:'Lato',Arial,sans-serif}
+.baseline-card input[type=number]:disabled{color:var(--color-text-secondary);cursor:not-allowed;-webkit-text-fill-color:var(--color-text-secondary);opacity:1}
+.soundboard{display:grid;grid-template-columns:repeat(12,1fr);gap:10px;align-items:start}
+.col-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:10px 6px 14px 6px;display:flex;flex-direction:column;align-items:center;gap:10px;transition:background 0.15s}
+.col-card.highlighted{background:#e0e0e0}
+.col-card.off{background:#e8e8e8}
+.col-card.off .track-outer{cursor:pointer}
+@media(prefers-color-scheme:dark){
+  .baseline-card.highlighted{background:#3a3a3a}
+  .col-card.highlighted{background:#3a3a3a}
+}
+.col-label{font-size:12px;font-weight:600;color:var(--color-text-secondary);text-align:center;line-height:1.3;min-height:28px}
+.specs-arrow{display:inline-block;margin-left:4px;cursor:pointer;color:#aaaaaa;font-size:14px;vertical-align:middle;position:relative;bottom:1px;line-height:1;user-select:none;}
+.specs-arrow:hover{color:#888888}
+#specsModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:1000;align-items:center;justify-content:center;}
+#specsModal.open{display:flex;}
+#specsModalBox{background:#fff;border-radius:12px;padding:24px;max-width:720px;width:90%;max-height:80vh;overflow-y:auto;position:relative;box-shadow:0 8px 40px rgba(0,0,0,0.2);}
+#specsModalBox h2{font-size:16px;font-weight:700;color:#1a1a1a;margin-bottom:4px;}
+#specsModalBox p.sub{color:#666;font-size:11px;margin-bottom:14px;}
+#specsModalClose{position:absolute;top:14px;right:16px;font-size:20px;cursor:pointer;color:#666;line-height:1;background:none;border:none;font-family:inherit;}
+#specsModalClose:hover{color:#1a1a1a}
+#specsModalBox table{border-collapse:collapse;width:100%;font-family:'Lato',Arial,sans-serif;}
+#specsModalBox th{background:#2d2d2d;color:#fff;text-align:left;padding:7px 10px;font-size:11px;letter-spacing:0.04em;text-transform:uppercase;position:sticky;top:0;}
+#specsModalBox td{padding:6px 10px;border-bottom:1px solid #e8e8e8;font-size:12px;}
+#specsModalBox tr:hover td{background:#f5f5f5;}
+#specsModalBox .brand-row td{background:#f0f0ee;font-weight:700;font-size:11px;letter-spacing:0.05em;text-transform:uppercase;color:#444;}
+#specsModalBox .note-foot{font-size:11px;color:#999;margin-top:12px;}
+.track-outer{position:relative;width:96px;height:460px;margin:0 auto;cursor:ns-resize;user-select:none;flex-shrink:0}
+.track-bg{position:absolute;top:26px;bottom:26px;left:22px;width:52px;background:var(--color-background-secondary);border-radius:26px}
+.track-fill{position:absolute;bottom:12px;left:22px;width:52px;border-radius:26px;transition:height 0.08s}
+.track-thumb{position:absolute;left:22px;width:52px;height:52px;background:var(--color-background-primary);border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,0.2);z-index:4;transition:bottom 0.08s,border-color 0.08s;display:flex;align-items:center;justify-content:center;border:3px solid #1D9E75}
+.thumb-val{font-size:11px;font-weight:700;text-align:center;line-height:1.1;pointer-events:none;font-family:'Lato',Arial,sans-serif}
+.tick-label{position:absolute;right:0;width:18px;font-size:9px;font-weight:400;text-align:right;white-space:nowrap;z-index:2;pointer-events:none;line-height:1}
+.divider{height:0.5px;background:var(--color-border-tertiary);margin:1.5rem 0}
+.calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.calc-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px 16px;transition:background 0.15s;position:relative}
+.unit-toggle{display:flex;border:1px solid var(--color-border-secondary);border-radius:8px;overflow:hidden;flex-shrink:0}
+.unit-btn{font-size:13px;padding:8px 16px;background:transparent;border:none;cursor:pointer;color:var(--color-text-secondary);font-family:'Lato',Arial,sans-serif;font-weight:700}
+.unit-btn.active{background:#d9d9d9;color:#1a1a1a}
+.calc-card.highlighted{background:#e0e0e0}
+@media(prefers-color-scheme:dark){.calc-card.highlighted{background:#3a3a3a}}
+.calc-card h3{font-size:15px;font-weight:700;color:var(--color-text-primary);text-transform:uppercase;letter-spacing:0.04em;text-align:center;margin:0}
+.calc-header{display:flex;align-items:center;min-height:40px;margin-bottom:12px}
+.calc-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;gap:8px}
+.calc-row label{font-size:15px;color:var(--color-text-secondary);flex:1}
+.calc-row input[type=number]{width:80px;font-size:16px;text-align:right;background:var(--color-background-secondary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:4px 8px;color:var(--color-text-primary);outline:none;font-family:'Lato',Arial,sans-serif}
+.calc-result{margin-top:10px;padding-top:10px;border-top:0.5px solid var(--color-border-tertiary);display:flex;justify-content:space-between;align-items:baseline}
+.calc-result .rlabel{font-size:15px;color:var(--color-text-secondary)}
+.calc-result .rvalue{font-size:20px;font-weight:700;color:var(--color-text-primary)}
+input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+input[type=number]{-moz-appearance:textfield}
+</style>
+
+<div>
+  <h2 style="padding-top:1.5rem;text-align:center;color:#2d2d2d;">Return To Run Load Manager</h2>
+  <p style="font-size:16px;color:#2d2d2d;margin-bottom:1.5rem;font-weight:700;text-align:center;">Acclimate Physical Therapy and Performance Return to Run - Forefoot</p>
+  <p class="section-label">Prior Levels</p>
+  <div class="baseline-grid" id="baselineGrid"></div>
+</div>
+
+<div class="divider"></div>
+
+<div class="section">
+  <p class="section-label">Drag to Current Level</p>
+  <div class="soundboard" id="soundboard"></div>
+</div>
+
+<div class="divider"></div>
+
+<div class="section" style="position:relative">
+  <button type="button" id="genSummaryBtn" onclick="generateSummary()" style="position:absolute;top:0;right:0;font-size:12px;font-weight:700;padding:8px 14px;background:#1D9E75;color:#ffffff;border:none;border-radius:8px;cursor:pointer;font-family:'Lato',Arial,sans-serif;">Generate Plan Summary</button>
+  <div class="calc-grid">
+    <div class="calc-card" id="calcCard_elevgain"
+      onmouseenter="setHighlight('grade',true)" onmouseleave="setHighlight('grade',false)">
+      <div class="calc-header" style="justify-content:space-between">
+        <h3 style="text-align:left">% Grade Calculator</h3>
+        <div class="unit-toggle" id="gradeUnitToggle">
+          <button type="button" class="unit-btn active" data-unit="imperial" onclick="setGradeUnit('imperial')">Imperial</button>
+          <button type="button" class="unit-btn" data-unit="metric" onclick="setGradeUnit('metric')">Metric</button>
+        </div>
+      </div>
+      <div class="calc-row"><label id="gradeDistLabel">Distance (miles)</label><input type="number" id="gradeMiles" value="0" step="0.05" oninput="calcGrade()" onfocus="setHighlight('grade',true)" onblur="setHighlight('grade',false)"></div>
+      <div class="calc-row"><label id="gradeElevLabel">Elevation Change (ft)</label><input type="number" id="gradeElev" value="0" step="1" oninput="calcGrade()" onfocus="setHighlight('grade',true)" onblur="setHighlight('grade',false)"></div>
+      <div class="calc-result"><span class="rlabel">% Grade</span><span class="rvalue" id="gradeResult">1.7%</span></div>
+    </div>
+    <div class="calc-card" id="calcCard_cadence"
+      onmouseenter="setHighlight('cadence',true)" onmouseleave="setHighlight('cadence',false)">
+      <div class="calc-header" style="justify-content:flex-start">
+        <h3 style="text-align:left">Cadence Calculator</h3>
+      </div>
+      <div class="calc-row"><label>Current Cadence (Steps Per Minute)</label><input type="number" id="cadenceCurrent" value="0" step="1" oninput="calcCadence()" onfocus="setHighlight('cadence',true)" onblur="setHighlight('cadence',false)"></div>
+      <div class="calc-row" style="visibility:hidden"><label>Spacer</label><input type="number" tabindex="-1"></div>
+      <div class="calc-result" style="flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:6px;">
+        <div style="display:flex;justify-content:space-between;width:100%;align-items:baseline">
+          <span class="rlabel">Rehab Cadence (+10%)</span>
+          <span class="rvalue" id="cadenceRehab">182 spm</span>
+        </div>
+        <div style="font-size:13px;color:var(--color-text-secondary)">Capped at 185 spm</div>
+      </div>
+    </div>
+  </div>
+  <div id="planSummary" style="margin-top:16px;padding:14px 16px;background:var(--color-background-secondary);border-radius:var(--border-radius-lg);font-size:14px;line-height:1.5;color:var(--color-text-primary);display:none;"></div>
+</div>
+
+<div id="specsModal">
+  <div id="specsModalBox">
+    <button id="specsModalClose" onclick="document.getElementById('specsModal').classList.remove('open')">&times;</button>
+    <h2>Trail Running Shoes — Stack Height &amp; Heel Drop</h2>
+    <p class="sub">Specs are manufacturer-listed unless noted. Drop = heel stack − forefoot stack.</p>
+    <table>
+      <thead><tr><th>Brand</th><th>Model</th><th>Stack — Heel (mm)</th><th>Stack — Forefoot (mm)</th><th>Heel Drop (mm)</th></tr></thead>
+      <tbody>
+        <tr class="brand-row"><td colspan="5">Adidas</td></tr>
+        <tr><td>Adidas</td><td>Terrex Agravic 4</td><td>35</td><td>29</td><td>6</td></tr>
+        <tr><td>Adidas</td><td>Terrex Agravic Speed Ultra</td><td>40</td><td>34</td><td>6</td></tr>
+        <tr class="brand-row"><td colspan="5">Altra</td></tr>
+        <tr><td>Altra</td><td>Experience Wild 3+</td><td>32</td><td>28</td><td>4</td></tr>
+        <tr><td>Altra</td><td>Lone Peak 9 / 9+</td><td>25</td><td>25</td><td>0</td></tr>
+        <tr><td>Altra</td><td>Olympus 275</td><td>33</td><td>33</td><td>0</td></tr>
+        <tr class="brand-row"><td colspan="5">ASICS</td></tr>
+        <tr><td>ASICS</td><td>Fujispeed 3</td><td>31</td><td>23</td><td>8</td></tr>
+        <tr><td>ASICS</td><td>MetaFuji Trail</td><td>36.5</td><td>28.5</td><td>8</td></tr>
+        <tr><td>ASICS</td><td>Trabuco 14</td><td>36</td><td>28</td><td>8</td></tr>
+        <tr class="brand-row"><td colspan="5">Brooks</td></tr>
+        <tr><td>Brooks</td><td>Cascadia 19</td><td>35</td><td>27</td><td>8</td></tr>
+        <tr><td>Brooks</td><td>Cascadia Elite</td><td>35</td><td>29</td><td>6</td></tr>
+        <tr><td>Brooks</td><td>Catamount 4</td><td>35</td><td>29</td><td>6</td></tr>
+        <tr><td>Brooks</td><td>Ghost Trail</td><td>36.5</td><td>28.5</td><td>8</td></tr>
+        <tr class="brand-row"><td colspan="5">Craft</td></tr>
+        <tr><td>Craft</td><td>Pure Trail (men's)</td><td>35</td><td>29</td><td>6</td></tr>
+        <tr><td>Craft</td><td>Pure Trail (women's)</td><td>36</td><td>30</td><td>6</td></tr>
+        <tr><td>Craft</td><td>Pure Trail Pro</td><td>36</td><td>30</td><td>6</td></tr>
+        <tr class="brand-row"><td colspan="5">HOKA</td></tr>
+        <tr><td>HOKA</td><td>Challenger 8 (men's)</td><td>42</td><td>34</td><td>8</td></tr>
+        <tr><td>HOKA</td><td>Mafate 5</td><td>45</td><td>37</td><td>8</td></tr>
+        <tr><td>HOKA</td><td>Mafate X</td><td>44</td><td>37</td><td>4</td></tr>
+        <tr><td>HOKA</td><td>Rocket X Trail</td><td>38</td><td>32</td><td>6</td></tr>
+        <tr><td>HOKA</td><td>Speedgoat 7</td><td>40</td><td>35</td><td>5</td></tr>
+        <tr><td>HOKA</td><td>Stinson 7</td><td>45</td><td>37</td><td>4</td></tr>
+        <tr><td>HOKA</td><td>Tecton X 3</td><td>38</td><td>32</td><td>6</td></tr>
+        <tr><td>HOKA</td><td>Torrent 4</td><td>23</td><td>18</td><td>5</td></tr>
+        <tr><td>HOKA</td><td>Torrent 5</td><td>38</td><td>32</td><td>5</td></tr>
+        <tr><td>HOKA</td><td>Zinal 2</td><td>33</td><td>29</td><td>4</td></tr>
+        <tr class="brand-row"><td colspan="5">Inov-8</td></tr>
+        <tr><td>Inov-8</td><td>TrailFly Pro (2026)</td><td>34</td><td>28</td><td>6</td></tr>
+        <tr><td>Inov-8</td><td>Trailfly Speed</td><td>30</td><td>26</td><td>4</td></tr>
+        <tr><td>Inov-8</td><td>Trailfly 270 V2</td><td>33</td><td>33</td><td>0</td></tr>
+        <tr><td>Inov-8</td><td>TrailTalon</td><td>30</td><td>24</td><td>6</td></tr>
+        <tr class="brand-row"><td colspan="5">La Sportiva</td></tr>
+        <tr><td>La Sportiva</td><td>Bushido III</td><td>28</td><td>22</td><td>6</td></tr>
+        <tr><td>La Sportiva</td><td>Prodigio 2</td><td>34</td><td>28</td><td>6</td></tr>
+        <tr><td>La Sportiva</td><td>Prodigio Max</td><td>37</td><td>31</td><td>6</td></tr>
+        <tr><td>La Sportiva</td><td>Prodigio Pro</td><td>34</td><td>28</td><td>6</td></tr>
+        <tr class="brand-row"><td colspan="5">Merrell</td></tr>
+        <tr><td>Merrell</td><td>Long Sky 2</td><td>28</td><td>22</td><td>6</td></tr>
+        <tr><td>Merrell</td><td>Nova 4</td><td>29</td><td>21</td><td>8</td></tr>
+        <tr class="brand-row"><td colspan="5">Mount to Coast</td></tr>
+        <tr><td>Mount to Coast</td><td>H1</td><td>36</td><td>30</td><td>6</td></tr>
+        <tr class="brand-row"><td colspan="5">New Balance</td></tr>
+        <tr><td>New Balance</td><td>Fresh Foam X Hierro V9</td><td>42</td><td>38</td><td>4</td></tr>
+        <tr class="brand-row"><td colspan="5">Nike</td></tr>
+        <tr><td>Nike</td><td>ACG Pegasus Trail 5</td><td>34</td><td>24</td><td>10</td></tr>
+        <tr><td>Nike</td><td>Terra Kiger 10</td><td>22</td><td>18</td><td>4</td></tr>
+        <tr class="brand-row"><td colspan="5">Nnormal</td></tr>
+        <tr><td>Nnormal</td><td>Kjerag (original)</td><td>23.5</td><td>17.5</td><td>6</td></tr>
+        <tr><td>Nnormal</td><td>Kjerag 02</td><td>26</td><td>20</td><td>6</td></tr>
+        <tr><td>Nnormal</td><td>Tomir (original)</td><td>31</td><td>23</td><td>8</td></tr>
+        <tr><td>Nnormal</td><td>Tomir 2.0</td><td>33</td><td>25</td><td>8</td></tr>
+        <tr class="brand-row"><td colspan="5">Norda</td></tr>
+        <tr><td>Norda</td><td>001 / 001A</td><td>26</td><td>21</td><td>5</td></tr>
+        <tr><td>Norda</td><td>002</td><td>29</td><td>22</td><td>4 (listed) / 7 (measured)*</td></tr>
+        <tr><td>Norda</td><td>003</td><td>26</td><td>21</td><td>5</td></tr>
+        <tr><td>Norda</td><td>005</td><td>28.5</td><td>20.5</td><td>8</td></tr>
+        <tr class="brand-row"><td colspan="5">On</td></tr>
+        <tr><td>On</td><td>Cloudsurfer Trail 2</td><td>32</td><td>26</td><td>6</td></tr>
+        <tr class="brand-row"><td colspan="5">Puma</td></tr>
+        <tr><td>Puma</td><td>Deviate Nitro Elite Trail</td><td>36</td><td>30</td><td>6</td></tr>
+        <tr class="brand-row"><td colspan="5">Salomon</td></tr>
+        <tr><td>Salomon</td><td>Genesis / S/Lab Genesis</td><td>31</td><td>27</td><td>4</td></tr>
+        <tr><td>Salomon</td><td>S/Lab Ultra Glide Trail</td><td>41</td><td>35</td><td>6</td></tr>
+        <tr><td>Salomon</td><td>Speedcross 6</td><td>35</td><td>27</td><td>8</td></tr>
+        <tr><td>Salomon</td><td>Ultra Glide 4</td><td>41</td><td>35</td><td>6</td></tr>
+        <tr><td>Salomon</td><td>XA Pro 3D V9</td><td>35</td><td>29</td><td>6</td></tr>
+        <tr class="brand-row"><td colspan="5">Saucony</td></tr>
+        <tr><td>Saucony</td><td>Peregrine 15</td><td>31</td><td>27</td><td>4</td></tr>
+        <tr><td>Saucony</td><td>Peregrine 16</td><td>33</td><td>28</td><td>5</td></tr>
+        <tr class="brand-row"><td colspan="5">Scarpa</td></tr>
+        <tr><td>Scarpa</td><td>Spin Ultra 2</td><td>30</td><td>24</td><td>6</td></tr>
+        <tr class="brand-row"><td colspan="5">Scott</td></tr>
+        <tr><td>Scott</td><td>Kinabalu RC 3</td><td>32</td><td>27</td><td>5</td></tr>
+        <tr class="brand-row"><td colspan="5">Speedland</td></tr>
+        <tr><td>Speedland</td><td>GL:PDX / GL:SVT</td><td>33</td><td>28</td><td>5</td></tr>
+        <tr><td>Speedland</td><td>GS:PDX / GS:TAM</td><td>34</td><td>29</td><td>5</td></tr>
+        <tr class="brand-row"><td colspan="5">Topo Athletic</td></tr>
+        <tr><td>Topo Athletic</td><td>Terraventure 5</td><td>35</td><td>30</td><td>5</td></tr>
+        <tr><td>Topo Athletic</td><td>Ultraventure 4</td><td>35</td><td>30</td><td>5</td></tr>
+        <tr><td>Topo Athletic</td><td>Ultraventure 5</td><td>35</td><td>30</td><td>5</td></tr>
+        <tr class="brand-row"><td colspan="5">VJ Shoes</td></tr>
+        <tr><td>VJ Shoes</td><td>Flow</td><td>35</td><td>25</td><td>10</td></tr>
+        <tr><td>VJ Shoes</td><td>MAXx2</td><td>31</td><td>25</td><td>6</td></tr>
+        <tr><td>VJ Shoes</td><td>Spark</td><td>27</td><td>22</td><td>5</td></tr>
+        <tr><td>VJ Shoes</td><td>Ultra / Ultra 2</td><td>33</td><td>27</td><td>6</td></tr>
+        <tr><td>VJ Shoes</td><td>Ultra 3</td><td>37</td><td>29</td><td>8</td></tr>
+        <tr><td>VJ Shoes</td><td>XTRM 2</td><td>24</td><td>20</td><td>4</td></tr>
+      </tbody>
+    </table>
+    <p class="note-foot">* Norda 002 is listed at 4mm drop by the brand; independent lab testing (World Athletics standard) measured closer to 7mm.</p>
+  </div>
+</div>
+<script>
+const COLS=[
+  {key:'frequency', label:'Frequency (runs/wk)',   base:6,    unit:'x',  dec:0, symmetric:true, mults:[2.25,2,1.75,1.5,1.25,1,0.833333333333,0.666666666666666,0.5,0.3333333333,0.166666666666]},
+  {key:'volume',    label:'Volume',               base:40,   unit:'', dec:0, mults:[1,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1,0.05]},
+  {key:'walk',      label:'Walk %',                base:null, unit:'%',  dec:0, fixed:[0,10,20,30,40,50,60,70,80,90,100]},
+  {key:'longrun',   label:'Long Run %',            base:40,   unit:'%',  dec:0, mults:[1,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1,0.05]},
+  {key:'elevgain',  label:'Elev Gain (ft/m)',       base:2500, unit:'', dec:0, mults:[1,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1,0]},
+  {key:'elevloss',  label:'Elev Loss (ft/m)',       base:2500, unit:'', dec:0, mults:[1,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1,0]},
+  {key:'grade',     label:'Uphill Grade %',         base:20,   unit:'%',  dec:0, mults:[1,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1,0]},
+  {key:'stack',     label:'Stack Height (mm)',      base:27,   unit:'', dec:0, mults:[1.0,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,2.0]},
+  {key:'drop',      label:'Heel Drop (mm)',         base:4,    unit:'', dec:0, mults:[1.0,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,2.0]},
+  {key:'intensity', label:'Minutes @ Intensity',    base:24,   unit:'', dec:0, mults:[1,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1,0]},
+  {key:'cadence',   label:'% @ ^ Cadence',         base:null, unit:'%',  dec:0, fixed:[0,10,20,30,40,50,60,70,80,90,100]},
+  {key:'fartlek',   label:'% @ Form Fartlek',      base:null, unit:'%',  dec:0, fixed:[0,10,20,30,40,50,60,70,80,90,100]},
+];
+
+const ROWS=11, THUMB_H=52, PAD=26;
+const OFF_LIGHT='#f2f2f2', OFF_CARD='#e8e8e8';
+const bases={},levels={},offState={};
+COLS.forEach(c=>{bases[c.key]=0;levels[c.key]=c.symmetric?Math.round((ROWS-1)/2):10;offState[c.key]=false;});
+
+function getVals(col){
+  if(col.fixed)return col.fixed.slice();
+  const b=bases[col.key];
+  if(col.key==='drop' && b >= 0 && b < 4){
+    // Special case: ignore mults, show linear range from entered value up to 10
+    return Array.from({length:ROWS},(_,i)=>Math.round(b+(10-b)*i/(ROWS-1)));
+  }
+  return col.mults.map(m=>{
+    const v=b*m;
+    const rounded=col.dec===1?Math.round(v*10)/10:Math.round(v);
+    return col.key==='drop'?Math.min(rounded,12):rounded;
+  });
+}
+function fmt(v,col){return(col.dec===1?v.toFixed(1):Math.round(v))+col.unit;}
+function sliderTitle(label){return label.replace(/\s*\([^)]*\)/g,'').trim();}
+
+// Map level (0-10) to a bottom px value within the track, using padding on both ends
+function levelToBottom(lv, trackH){
+  const usable = trackH - PAD*2;
+  return PAD + (lv/(ROWS-1))*usable;
+}
+// Map row index to bottom px for tick labels
+function rowToBottom(i, trackH){
+  const usable = trackH - PAD*2;
+  return PAD + ((ROWS-1-i)/(ROWS-1))*usable;
+}
+
+function levelColor(pct){
+  const r1=[192,57,43],r2=[230,126,34],r3=[29,158,117];
+  let r,g,b;
+  if(pct<0.5){const t=pct/0.5;r=Math.round(r1[0]+(r2[0]-r1[0])*t);g=Math.round(r1[1]+(r2[1]-r1[1])*t);b=Math.round(r1[2]+(r2[2]-r1[2])*t);}
+  else{const t=(pct-0.5)/0.5;r=Math.round(r2[0]+(r3[0]-r2[0])*t);g=Math.round(r2[1]+(r3[1]-r2[1])*t);b=Math.round(r2[2]+(r3[2]-r2[2])*t);}
+  return`rgb(${r},${g},${b})`;
+}
+function colorPctFor(lv,col){
+  if(col.symmetric){
+    const mid=(ROWS-1)/2;
+    return 1-(Math.abs(lv-mid)/mid);
+  }
+  return lv/(ROWS-1);
+}
+
+function updateSliderDisplay(key,lv,vals,col){
+  const trackEl=document.getElementById('tw_'+key);
+  if(!trackEl)return;
+  const trackH=trackEl.offsetHeight||460;
+  const pct=lv/(ROWS-1), cur=ROWS-1-lv, color=offState[key]?OFF_LIGHT:levelColor(colorPctFor(lv,col));
+  const btm=levelToBottom(lv,trackH);
+  const fillH=btm-PAD;
+
+  const fill=document.getElementById('tf_'+key);
+  const thumb=document.getElementById('tt_'+key);
+  const tv=document.getElementById('tv_'+key);
+  if(fill){fill.style.height=fillH+'px';fill.style.background=offState[key]?OFF_LIGHT:`linear-gradient(to top,#C0392B,${color})`;}
+  if(thumb){thumb.style.bottom=(btm-THUMB_H/2)+'px';thumb.style.borderColor=color;}
+  if(tv){tv.textContent=fmt(vals[cur],col);tv.style.color=color;}
+  for(let i=0;i<ROWS;i++){
+    const el=document.getElementById('tl_'+key+'_'+i);
+    if(!el)continue;
+    const isCur=i===cur;
+    const b=rowToBottom(i,trackH);
+    el.style.bottom=(b-6)+'px';
+    el.style.opacity=isCur?'0':'1';
+    el.style.color='var(--color-text-secondary)';
+    el.textContent=fmt(vals[i],col);
+  }
+}
+
+const CALC_LINKS={'grade':'calcCard_elevgain','cadence':'calcCard_cadence'};
+
+function setHighlight(key, on){
+  if(offState[key]) return;
+  const card=document.getElementById('bc_'+key);
+  const col=document.getElementById('cc_'+key);
+  if(card) card.classList.toggle('highlighted', on);
+  if(col) col.classList.toggle('highlighted', on);
+  const calcCard=CALC_LINKS[key]?document.getElementById(CALC_LINKS[key]):null;
+  if(calcCard) calcCard.classList.toggle('highlighted', on);
+}
+
+function setOff(key,col,off){
+  offState[key]=off;
+  const cc=document.getElementById('cc_'+key);
+  const bc=document.getElementById('bc_'+key);
+  if(cc){cc.classList.toggle('off',off);if(off)cc.classList.remove('highlighted');}
+  if(bc){bc.classList.toggle('off',off);if(off)bc.classList.remove('highlighted');}
+  updateSliderDisplay(key,levels[key],getVals(col),col);
+}
+function toggleOff(key,col){
+  setOff(key,col,!offState[key]);
+}
+
+function buildBaseline(){
+  const g=document.getElementById('baselineGrid');
+  g.innerHTML='';
+  COLS.forEach(col=>{
+    if(col.fixed){
+      const d=document.createElement('div');
+      d.className='baseline-card';
+      d.id='bc_'+col.key;
+      d.innerHTML=`<label>${col.label}</label><input type="number" value="0" disabled>`;
+      g.appendChild(d);
+      d.addEventListener('mouseenter',()=>setHighlight(col.key,true));
+      d.addEventListener('mouseleave',()=>setHighlight(col.key,false));
+      return;
+    }
+    const d=document.createElement('div');
+    d.className='baseline-card';
+    d.id='bc_'+col.key;
+    const maxAttr=(['longrun','grade'].includes(col.key))?'max="100"':'';
+    d.innerHTML=`<label>${col.label}</label><input type="number" id="base_${col.key}" value="${bases[col.key]}" step="${col.dec===1?'0.1':'1'}" ${maxAttr}>`;
+    g.appendChild(d);
+    const inp=d.querySelector('input');
+    inp.addEventListener('input',e=>{
+      let v=parseFloat(e.target.value)||0;
+      if(['longrun','grade'].includes(col.key)&&v>100){v=100;e.target.value=100;}
+      bases[col.key]=v;
+      updateSliderDisplay(col.key,levels[col.key],getVals(col),col);
+    });
+    d.addEventListener('mouseenter',()=>setHighlight(col.key,true));
+    d.addEventListener('mouseleave',()=>setHighlight(col.key,false));
+    inp.addEventListener('focus',()=>setHighlight(col.key,true));
+    inp.addEventListener('blur',()=>setHighlight(col.key,false));
+  });
+}
+
+function buildSoundboard(){
+  const board=document.getElementById('soundboard');
+  board.innerHTML='';
+  COLS.forEach(col=>{
+    const vals=getVals(col),lv=levels[col.key];
+    const pct=lv/(ROWS-1),cur=ROWS-1-lv,color=offState[col.key]?OFF_LIGHT:levelColor(colorPctFor(lv,col));
+    const card=document.createElement('div');
+    card.className='col-card';
+    // Build tick placeholders; actual positions set after render
+    let ticksHTML='';
+    for(let i=0;i<ROWS;i++){
+      ticksHTML+=`<span id="tl_${col.key}_${i}" class="tick-label" style="bottom:0;opacity:0;">${fmt(vals[i],col)}</span>`;
+    }
+    card.innerHTML=`
+      <div class="col-label">${sliderTitle(col.label)}${(col.key==='stack'||col.key==='drop')?'<span class="specs-arrow" onclick="event.stopPropagation();openSpecsModal()">&#9654;</span>':''}</div>
+      <div class="track-outer" id="tw_${col.key}">
+        <div class="track-bg"></div>
+        <div class="track-fill" id="tf_${col.key}" style="height:0;bottom:${PAD}px;background:${offState[col.key]?OFF_LIGHT:`linear-gradient(to top,#C0392B,${color})`}"></div>
+        ${ticksHTML}
+        <div class="track-thumb" id="tt_${col.key}" style="bottom:0;border-color:${color}">
+          <span class="thumb-val" id="tv_${col.key}" style="color:${color}">${fmt(vals[cur],col)}</span>
+        </div>
+      </div>
+    `;
+    card.id='cc_'+col.key;
+    board.appendChild(card);
+    if(col.key==='fartlek'){
+      const textBox=document.createElement('div');
+      textBox.style.cssText='background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:6px;display:flex;align-items:stretch;grid-column:12;';
+      textBox.innerHTML=`<textarea style="width:96px;height:60px;resize:none;font-family:\'Lato\',Arial,sans-serif;font-size:13px;color:var(--color-text-primary);background:transparent;border:none;padding:0;outline:none;box-sizing:border-box;text-align:center;"></textarea>`;
+      board.appendChild(textBox);
+    }
+    card.addEventListener('mouseenter',()=>setHighlight(col.key,true));
+    card.addEventListener('mouseleave',()=>setHighlight(col.key,false));
+    card.addEventListener('dblclick',()=>toggleOff(col.key,col));
+  });
+
+  // After DOM is rendered, set real positions
+  requestAnimationFrame(()=>{
+    COLS.forEach(col=>{
+      updateSliderDisplay(col.key,levels[col.key],getVals(col),col);
+      attachDrag(col.key,col);
+    });
+  });
+}
+
+function attachDrag(key,col){
+  const wrap=document.getElementById('tw_'+key);
+  if(!wrap)return;
+  let active=false;
+  function setLevel(clientY){
+    const r=wrap.getBoundingClientRect();
+    const trackH=r.height;
+    const usable=trackH-PAD*2;
+    const fromBottom=r.bottom-clientY;
+    const pct=Math.min(1,Math.max(0,(fromBottom-PAD)/usable));
+    const lv=Math.round(pct*(ROWS-1));
+    levels[key]=lv;
+    updateSliderDisplay(key,lv,getVals(col),col);
+  }
+  wrap.addEventListener('mousedown',e=>{if(offState[key])return;active=true;setLevel(e.clientY);e.preventDefault();});
+  wrap.addEventListener('touchstart',e=>{if(offState[key])return;active=true;setLevel(e.touches[0].clientY);e.preventDefault();},{passive:false});
+  document.addEventListener('mousemove',e=>{if(active)setLevel(e.clientY);});
+  document.addEventListener('touchmove',e=>{if(active)setLevel(e.touches[0].clientY);},{passive:false});
+  document.addEventListener('mouseup',()=>active=false);
+  document.addEventListener('touchend',()=>active=false);
+}
+
+let gradeUnit='imperial';
+const gradeStore={
+  imperial:{dist:0, elev:0},
+  metric:{dist:0, elev:0}
+};
+function setGradeUnit(unit){
+  gradeStore[gradeUnit].dist=parseFloat(document.getElementById('gradeMiles').value)||0;
+  gradeStore[gradeUnit].elev=parseFloat(document.getElementById('gradeElev').value)||0;
+  gradeUnit=unit;
+  document.querySelectorAll('#gradeUnitToggle .unit-btn').forEach(b=>b.classList.toggle('active',b.dataset.unit===unit));
+  if(unit==='metric'){
+    document.getElementById('gradeDistLabel').textContent='Distance (kilometers)';
+    document.getElementById('gradeElevLabel').textContent='Elevation Change (m)';
+    document.getElementById('gradeMiles').step='0.1';
+    document.getElementById('gradeElev').step='1';
+  }else{
+    document.getElementById('gradeDistLabel').textContent='Distance (miles)';
+    document.getElementById('gradeElevLabel').textContent='Elevation Change (ft)';
+    document.getElementById('gradeMiles').step='0.05';
+    document.getElementById('gradeElev').step='1';
+  }
+  document.getElementById('gradeMiles').value=gradeStore[unit].dist;
+  document.getElementById('gradeElev').value=gradeStore[unit].elev;
+  calcGrade();
+}
+function calcGrade(){
+  const dist=parseFloat(document.getElementById('gradeMiles').value)||0;
+  const el=parseFloat(document.getElementById('gradeElev').value)||0;
+  let pct=0;
+  if(gradeUnit==='metric'){
+    pct=dist>0?(el/(dist*1000)*100):0;
+  }else{
+    pct=dist>0?(el/(dist*5280)*100):0;
+  }
+  document.getElementById('gradeResult').textContent=pct.toFixed(1)+'%';
+}
+function calcCadence(){
+  const c=parseFloat(document.getElementById('cadenceCurrent').value)||0;
+  document.getElementById('cadenceRehab').textContent=Math.min(185,Math.round(c*1.1))+' spm';
+}
+
+function getCurrentValue(key){
+  const col=COLS.find(c=>c.key===key);
+  if(!col||offState[key])return null;
+  const vals=getVals(col);
+  const cur=ROWS-1-levels[key];
+  return vals[cur];
+}
+function pluralize(n,word){return Math.round(n)===1?word:word+'s';}
+function joinList(arr){
+  if(arr.length===1)return arr[0];
+  if(arr.length===2)return arr[0]+' and '+arr[1];
+  return arr.slice(0,-1).join(', ')+', and '+arr[arr.length-1];
+}
+
+function generateSummary(){
+  const freq=getCurrentValue('frequency');
+  const volume=getCurrentValue('volume');
+  const longrunPct=getCurrentValue('longrun');
+  const walk=getCurrentValue('walk');
+  const elevGain=getCurrentValue('elevgain');
+  const elevLoss=getCurrentValue('elevloss');
+  const grade=getCurrentValue('grade');
+  const stack=getCurrentValue('stack');
+  const drop=getCurrentValue('drop');
+  const intensity=getCurrentValue('intensity');
+  const cadence=getCurrentValue('cadence');
+  const fartlek=getCurrentValue('fartlek');
+
+  let sentence='';
+
+  const hasFreq=freq!==null&&freq>0, hasVol=volume!==null&&volume>0;
+  if(hasFreq&&hasVol){
+    sentence=`You will be running ${Math.round(freq)} ${pluralize(freq,'time')} a week for a total of ${Math.round(volume)} ${pluralize(volume,'mile')}`;
+  }else if(hasFreq){
+    sentence=`You will be running ${Math.round(freq)} ${pluralize(freq,'time')} a week`;
+  }else if(hasVol){
+    sentence=`You will be running a total of ${Math.round(volume)} ${pluralize(volume,'mile')} a week`;
+  }
+
+  if(longrunPct!==null&&longrunPct>0){
+    if(hasVol){
+      const longRunMiles=Math.round((volume*(longrunPct/100))*10)/10;
+      sentence+=sentence?`, with your long run being ${longRunMiles} ${pluralize(longRunMiles,'mile')}`:`Your long run will be ${Math.round(longrunPct)}% of your weekly volume`;
+    }else{
+      sentence+=sentence?`, with your long run making up ${Math.round(longrunPct)}% of your weekly volume`:`Your long run will make up ${Math.round(longrunPct)}% of your weekly volume`;
+    }
+  }
+  if(sentence&&!sentence.endsWith('.'))sentence+='.';
+
+  const extras=[];
+  if(walk!==null&&walk>0)extras.push(`${Math.round(walk)}% of your running including walk breaks`);
+  if(cadence!==null&&cadence>0)extras.push(`${Math.round(cadence)}% at an increased cadence`);
+  if(fartlek!==null&&fartlek>0)extras.push(`${Math.round(fartlek)}% incorporating form fartlek work`);
+  if(extras.length){
+    sentence+=` Your plan includes ${joinList(extras)}.`;
+  }
+
+  const terrain=[];
+  if(elevGain!==null&&elevGain>0)terrain.push(`${Math.round(elevGain)} ft of elevation gain`);
+  if(elevLoss!==null&&elevLoss>0)terrain.push(`${Math.round(elevLoss)} ft of elevation loss`);
+  if(grade!==null&&grade>0)terrain.push(`uphill grades up to ${Math.round(grade)}%`);
+  if(terrain.length){
+    sentence+=` You'll target ${joinList(terrain)}.`;
+  }
+
+  const gear=[];
+  if(stack!==null&&stack>0)gear.push(`a stack height of ${Math.round(stack)}mm`);
+  if(drop!==null&&drop>0)gear.push(`a heel drop of ${Math.round(drop)}mm`);
+  if(gear.length){
+    sentence+=` Footwear should have ${joinList(gear)}.`;
+  }
+
+  if(intensity!==null&&intensity>0){
+    sentence+=` Plan for ${Math.round(intensity)} minutes at target intensity.`;
+  }
+
+  if(!sentence){
+    sentence='Enter values into the sliders above to generate a plan summary.';
+  }
+
+  const out=document.getElementById('planSummary');
+  out.textContent=sentence;
+  out.style.display='block';
+}
+
+function openSpecsModal(){document.getElementById('specsModal').classList.add('open');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('specsModal').classList.remove('open');});
+document.getElementById('specsModal').addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');});
+buildBaseline();
+buildSoundboard();
+calcGrade();
+calcCadence();
+</script>
